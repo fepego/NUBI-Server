@@ -5,6 +5,8 @@ import com.nubi.colecciones.*;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 import org.mongodb.morphia.converters.DoubleConverter;
+import org.mongodb.morphia.query.Query;
+import org.mongodb.morphia.query.QueryResults;
 
 /**
  * Created by Felipe on 23/08/2016.
@@ -37,5 +39,13 @@ public class mainPersistencia {
         rest.setLocalizacion(new Localizacion(4.575343,-74.65653));
         rest.setEstado(new Estado(0.1,100,10));
         ds.save(rest);
+        //Recuperando datos
+        Query <Usuario> qry= ds.createQuery(Usuario.class);
+        qry.and(qry.criteria("idUsuario").equal("pipe"));
+        QueryResults<Usuario> qrList=ds.find(qry.getEntityClass());
+        for (Usuario u:qrList)
+        {
+            System.out.println(u.getPassword());
+        }
     }
 }
