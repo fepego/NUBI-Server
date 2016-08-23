@@ -1,0 +1,47 @@
+package rules;
+import com.nubi.controlador.Sitio
+dialect  "mvel"
+
+
+rule "sitio por disponibilidad baja"
+    when
+        s : Sitio( disponibilidad <0.5)
+    then
+        System.out.println("El sitio esta libre");
+        s.setNumUsuarios(15);
+
+end
+rule "sitio por disponibilidad media"
+    when
+        s : Sitio( disponibilidad ==0.5)
+    then
+        System.out.println("Disponibilidad Media");
+        s.setNumUsuarios(15);
+
+end
+rule "sitio por disponibilidad baja"
+    when
+        s : Sitio( disponibilidad > 0.5)
+    then
+        System.out.println("Baja Disponibilidad");
+        s.setNumUsuarios(15);
+
+end
+rule "Tolerancia de Ruido"
+    when
+        s: Sitio( ToleranciaRuido == "Bajo");
+    then
+        System.out.println("Tiene tolerancia Baja");
+end
+rule "Tipo de sitio de estudio"
+    when
+        s: Sitio(tipoEspacio== "Despejado");
+    then
+        System.out.println("Sitio Despejado");
+end
+
+//rule "Distancia entre usuario y Sitio Estudio"
+//    when
+//
+//    then
+//end
