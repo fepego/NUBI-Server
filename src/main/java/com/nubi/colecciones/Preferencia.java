@@ -14,17 +14,27 @@ public class Preferencia {
     private double distancia;
     private int frecuenciaNotificacion;
     private boolean notificaciones;
+    private double toleranciaDist;
+    private String toleranciaRuido;
+    private String tipoEspacio;
+    private String servicioFotocopias;
 
     public Preferencia() {
     }
 
-    public Preferencia(double tiempoMinimo, double tiempoMaximo, String disponibilidad, double distancia, int frecuenciaNotificacion, boolean notificaciones) {
+    public Preferencia(double tiempoMinimo, double tiempoMaximo,
+                       String disponibilidad, double distancia, int frecuenciaNotificacion, boolean notificaciones,
+                       double toleranciaDist, String toleranciaRuido, String tipoEspacio, String servicioFotocopias) {
         this.tiempoMinimo = tiempoMinimo;
         this.tiempoMaximo = tiempoMaximo;
         Disponibilidad = disponibilidad;
         this.distancia = distancia;
         this.frecuenciaNotificacion = frecuenciaNotificacion;
         this.notificaciones = notificaciones;
+        this.toleranciaDist = toleranciaDist;
+        this.toleranciaRuido = toleranciaRuido;
+        this.tipoEspacio = tipoEspacio;
+        this.servicioFotocopias = servicioFotocopias;
     }
 
     public double getTiempoMinimo() {
@@ -73,5 +83,37 @@ public class Preferencia {
 
     public void setNotificaciones(boolean notificaciones) {
         this.notificaciones = notificaciones;
+    }
+
+    public double getToleranciaDist() {
+        return toleranciaDist;
+    }
+
+    public void setToleranciaDist(double toleranciaDist) {
+        this.toleranciaDist = toleranciaDist;
+    }
+
+    public String getToleranciaRuido() {
+        return toleranciaRuido;
+    }
+
+    public void setToleranciaRuido(String toleranciaRuido) {
+        this.toleranciaRuido = toleranciaRuido;
+    }
+
+    public String getTipoEspacio() {
+        return tipoEspacio;
+    }
+
+    public void setTipoEspacio(String tipoEspacio) {
+        this.tipoEspacio = tipoEspacio;
+    }
+
+    public String getServicioFotocopias() {
+        return servicioFotocopias;
+    }
+
+    public void setServicioFotocopias(String servicioFotocopias) {
+        this.servicioFotocopias = servicioFotocopias;
     }
 }

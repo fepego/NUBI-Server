@@ -1,5 +1,7 @@
 package com.nubi.Utils;
 
+import com.nubi.colecciones.Localizacion;
+
 /**
  * Created by Felipe on 18/08/2016.
  */
@@ -14,15 +16,14 @@ public class Calculador {
  * @returns Distance in Meters
  * Modificado de: http://stackoverflow.com/questions/3694380/calculating-distance-between-two-points-using-latitude-longitude-what-am-i-doi
  */
-    public static double distance(double lat1, double lat2, double lon1,
-                                  double lon2) {
+    public static double distance(Localizacion loc1, Localizacion loc2) {
 
         final int R = 6371; // Radius of the earth
 
-        Double latDistance = Math.toRadians(lat2 - lat1);
-        Double lonDistance = Math.toRadians(lon2 - lon1);
+        Double latDistance = Math.toRadians(loc2.getLatitud() - loc1.getLatitud());
+        Double lonDistance = Math.toRadians(loc2.getLongitud() - loc1.getLongitud());
         Double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
-                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+                + Math.cos(Math.toRadians(loc1.getLatitud())) * Math.cos(Math.toRadians(loc2.getLatitud()))
                 * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
         Double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         double distance = R * c * 1000; // convert to meters

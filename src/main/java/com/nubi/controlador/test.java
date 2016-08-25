@@ -1,10 +1,17 @@
 package com.nubi.controlador;
 
-import com.nubi.controlador.Sitio;
-import com.nubi.controlador.message;
+import com.mongodb.MongoClient;
+import com.nubi.Utils.Calculador;
+import com.nubi.colecciones.Restaurante;
+import com.nubi.colecciones.SitiosEstudio;
+import com.nubi.colecciones.Usuario;
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
+import org.mongodb.morphia.Datastore;
+import org.mongodb.morphia.Morphia;
+import org.mongodb.morphia.query.Query;
+import org.mongodb.morphia.query.QueryResults;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,32 +21,75 @@ import java.util.List;
  */
 public class test {
     public static message msj;
-    public static List<Sitio> st;
+    private static List<Restaurante> qrList;
+    private static List <Usuario> usu;
+    private static MongoClient cli= new MongoClient("localhost",27017);
+    private static Morphia mph= new Morphia();
+    private static Datastore ds= mph.createDatastore(cli,"NUBI_DB");
+    private static List<Candidato> candidatos;
     public static void main(String[] args) {
         try {
             // load up the knowledge base
             KieServices ks = KieServices.Factory.get();
             KieContainer kContainer = ks.getKieClasspathContainer();
             KieSession kSession = kContainer.newKieSession("ksession-rules");
+            buscarRestaurantes();
+            buscarUsuario();
+            candidatos= new ArrayList<Candidato>();
+            for (int j=0;j<5;j++) {
+                candidatos=null;
+                candidatos= new ArrayList<Candidato>();
+                for (int i = 0; i < 18; i++) {
 
-            // go !
-//            msj = new message();
-//            msj.setMessage("Hello World");
-//            msj.setStatus(message.HELLO);
-            st= new ArrayList<Sitio>();
-            st.add(new Sitio());
-            st.get(0).setDisponibilidad((float)0.3);
-            st.get(0).setToleranciaRuido("Bajo");
-            for (Sitio s: st)
-            {
-                kSession.insert(s);
-                kSession.fireAllRules();
+                    candidatos.add(new Candidato());
+                    candidatos.get(i).setDistancia(Calculador.distance(usu.get(j).getLocalizacion(), qrList.get(i).getLocalizacion()));
+                    candidatos.get(i).setUsuario(usu.get(j));
+                    candidatos.get(i).setRestaurante(qrList.get(i));
+                    candidatos.get(i).setPuntaje(0);
+                    kSession.insert(candidatos.get(i));
+                    kSession.fireAllRules();
+                }
+                for (Candidato c: candidatos)
+                {
+                    System.out.println(c.getUsuario().getIdUsuario());
+                    System.out.println(c.getRestaurante().getNombre());
+                    System.out.println(c.getDistancia());
+                    System.out.println(c.getPuntaje());
+                }
             }
 
+            buscarSitioEstudio();
 
         } catch (Throwable t) {
             t.printStackTrace();
         }
 
+    }
+    public static void buscarRestaurantes()
+    {
+        Query<Restaurante> qry= ds.createQuery(Restaurante.class);
+
+        qrList=ds.find(qry.getEntityClass()).asList();
+
+    }
+    public static void buscarUsuario()
+    {
+        Query<Usuario> qry= ds.createQuery(Usuario.class);
+
+        usu=ds.find(qry.getEntityClass()).asList();
+        for (Usuario u: usu)
+        {
+            System.out.println(u.getIdUsuario());
+        }
+
+    }
+    public static void buscarSitioEstudio()
+    {
+        Query<SitiosEstudio> qry= ds.createQuery(SitiosEstudio.class);
+        List <SitiosEstudio> sts= ds.find(qry.getEntityClass()).asList();
+        for (SitiosEstudio s: sts)
+        {
+            System.out.println(s.toString());
+        }
     }
 }
