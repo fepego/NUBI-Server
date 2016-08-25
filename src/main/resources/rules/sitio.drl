@@ -78,6 +78,6 @@ rule "Tolerancia Ruido Alto"
         c: Candidato(sitio.toleranciaRuido="Alto" && sitio.toleranciaRuido==usuario.preferencias.toleranciaRuido)
     then
         c.setPuntaje(c.getPuntaje()+1);
-        System.out.println("se agrego 1 por tolerancia ruido Medio");
+        System.out.println("se agrego 1 por tolerancia ruido Alto");
 end
 
