@@ -68,5 +68,5 @@ rule "Regla para establecer el tipo de atención Punto de atención"
     when
         c: Candidato(fotocopiadora.autoServicio==true && usuario.preferencias.servicioFotocopias=="Punto de Atención")
     then
-        c.setPuntaje(c.getPuntaje()+1);
+        c.setPuntaje(c.getPuntaje()+2);
 end
