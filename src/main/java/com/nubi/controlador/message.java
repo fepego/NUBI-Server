@@ -5,7 +5,7 @@ package com.nubi.controlador;
  */
 public class message {
     public static final int HELLO = 0;
-    public static final int GOODBYE = 1;
+    public static final int GOODBYE = 5;
 
     private String message;
 
