@@ -6,52 +6,52 @@ dialect  "mvel"
 
 
 //Conjunto reglas de Disponibilidad
- rule "Regla por Disponibilidad en estado baja"
+ rule "Regla por Disponibilidad sitio estudio en estado baja"
      when
-         c: Candidato(restaurante.estado.disponibilidad < 0.5 && usuario.preferencias.disponibilidad=="Libre" ||
+         c: Candidato(sitio.estado.disponibilidad < 0.5 && usuario.preferencias.disponibilidad=="Libre" ||
          usuario.preferencias.disponibilidad=="Media" || usuario.preferencias.disponibilidad=="Cualquiera" )
      then
          c.setPuntaje(c.getPuntaje()+1);
          System.out.println("se agregó 1 por disponibilidad");
  end
- rule "Regla por Disponibilidad en estado medio y usuario con preferencia a libre"
+ rule "Regla por Disponibilidad sitio estudio en estado medio y usuario con preferencia a libre"
      when
-         c: Candidato(restaurante.estado.disponibilidad == 0.5 && usuario.preferencias.disponibilidad=="Libre")
+         c: Candidato(sitio.estado.disponibilidad == 0.5 && usuario.preferencias.disponibilidad=="Libre")
      then
          c.setPuntaje(c.getPuntaje()+0.5);
          System.out.println("se agregó 0.5 por disponibilidad ");
  end
- rule "Regla por Disponibilidad en estado medio y usuario con preferencia a Media/Cualquiera"
+ rule "Regla por Disponibilidad sitio estudio en estado medio y usuario con preferencia a Media/Cualquiera"
      when
-         c: Candidato(restaurante.estado.disponibilidad == 0.5 && usuario.preferencias.disponibilidad=="Media" ||
+         c: Candidato(sitio.estado.disponibilidad == 0.5 && usuario.preferencias.disponibilidad=="Media" ||
          usuario.preferencias.disponibilidad=="Cualquiera")
      then
          c.setPuntaje(c.getPuntaje()+1);
          System.out.println("se agregó 1 por disponibilidad");
  end
- rule "Regla por Disponibilidad en estado LLeno y usuario con preferencia a Media"
+ rule "Regla por Disponibilidad sitio estudio en estado LLeno y usuario con preferencia a Media"
      when
-         c: Candidato(restaurante.estado.disponibilidad > 0.5 && usuario.preferencias.disponibilidad=="Media" )
+         c: Candidato(sitio.estado.disponibilidad > 0.5 && usuario.preferencias.disponibilidad=="Media" )
      then
          c.setPuntaje(c.getPuntaje()+0.5);
          System.out.println("se agregó 0.5 por disponibilidad");
  end
- rule "Regla por Disponibilidad en estado LLeno y usuario con preferencia a Cualquiera"
+ rule "Regla por Disponibilidad sitio estudio en estado LLeno y usuario con preferencia a Cualquiera"
      when
-         c: Candidato(restaurante.estado.disponibilidad > 0.5 && usuario.preferencias.disponibilidad=="Cualquiera" )
+         c: Candidato(sitio.estado.disponibilidad > 0.5 && usuario.preferencias.disponibilidad=="Cualquiera" )
      then
          c.setPuntaje(c.getPuntaje()+1);
          System.out.println("se agregó 1 por disponibilidad");
  end
  //Conjunto Reglas de distancia
- rule "Regla por distancia más corta exacta"
+ rule "Regla por distancia sitio estudio más corta exacta"
      when
          c: Candidato(distancia <= usuario.preferencias.distancia)
      then
          c.setPuntaje(c.getPuntaje()+1);
-         System.out.println("se agregó un punto por distancia "+c.getRestaurante().getNombre());
+         System.out.println("se agregó un punto por distancia ");
  end
- rule "Regla por distancia más corta con tolerancia"
+ rule "Regla por distancia sitio estudio más corta con tolerancia"
      when
          c: Candidato(distancia > usuario.preferencias.distancia && distancia <= usuario.preferencias.distancia + usuario.preferencias.toleranciaDist )
      then
@@ -61,21 +61,28 @@ dialect  "mvel"
  // Conjunto Reglas para tolerancia Ruido
 rule "Tolerancia Ruido bajo"
     when
-        c: Candidato(sitio.toleranciaRuido="Bajo" && sitio.toleranciaRuido==usuario.preferencias.toleranciaRuido)
+        c: Candidato(sitio.toleranciaRuido=="Bajo" && sitio.toleranciaRuido==usuario.preferencias.toleranciaRuido)
     then
         c.setPuntaje(c.getPuntaje()+1);
         System.out.println("se agrego 1 por tolerancia ruido bajo");
 end
 rule "Tolerancia Ruido Medio"
     when
-        c: Candidato(sitio.toleranciaRuido="Medio" && sitio.toleranciaRuido==usuario.preferencias.toleranciaRuido)
+        c: Candidato(sitio.toleranciaRuido=="Medio" && sitio.toleranciaRuido==usuario.preferencias.toleranciaRuido)
     then
         c.setPuntaje(c.getPuntaje()+1);
         System.out.println("se agrego 1 por tolerancia ruido Medio");
 end
+rule "Tolerancia Ruido Medio con preferencia Alto"
+    when
+        c: Candidato(sitio.toleranciaRuido=="Medio" && usuario.preferencias.toleranciaRuido=="Alto")
+    then
+        c.setPuntaje(c.getPuntaje()+0.5);
+        System.out.println("se agrego 0.5 por tolerancia ruido Medio y pref Alto");
+end
 rule "Tolerancia Ruido Alto"
     when
-        c: Candidato(sitio.toleranciaRuido="Alto" && sitio.toleranciaRuido==usuario.preferencias.toleranciaRuido)
+        c: Candidato(sitio.toleranciaRuido=="Alto" && sitio.toleranciaRuido==usuario.preferencias.toleranciaRuido)
     then
         c.setPuntaje(c.getPuntaje()+1);
         System.out.println("se agregó 1 por tolerancia ruido Alto");
